@@ -1,0 +1,47 @@
+# ===== Tianteng site content backend config =====
+# Backend: GitHub (log in with your GitHub account).
+# IMPORTANT: replace YOUR_GITHUB_USERNAME below with your real GitHub username.
+
+backend:
+  name: github
+  repo: wenzhuf2/tianteng-site   # <-- change to your-username/tianteng-site
+  branch: main
+
+# Where uploaded images go (optional, for future real product photos)
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "products"
+    label: "Products"
+    files:
+      - name: "product_list"
+        label: "Product List"
+        file: "data/products.json"
+        format: "json"
+        fields:
+          - name: "products"
+            label: "Products"
+            label_singular: "Product"
+            widget: "list"
+            summary: "{{fields.brand}} — {{fields.name}} ({{fields.price}})"
+            fields:
+              - { name: "brand", label: "Brand", widget: "select", options: ["Samsung","WD","SanDisk","ADATA","Crucial","Lexar","Netac","HP"] }
+              - { name: "name", label: "Product Name", widget: "string" }
+              - { name: "category", label: "Category", widget: "select", options: [ {label: "Internal SSD", value: "ssd"}, {label: "Portable SSD / HDD", value: "portable"}, {label: "Memory Card", value: "card"}, {label: "USB Flash", value: "usb"}, {label: "Memory (RAM)", value: "ram"} ] }
+              - { name: "tag", label: "Type Tag (shown on card)", widget: "string", hint: "e.g. NVMe SSD, USB Flash, SD Card" }
+              - { name: "price", label: "Price", widget: "string", hint: "e.g. from $109 or $79.00" }
+              - name: "specs"
+                label: "Spec Rows"
+                widget: "list"
+                label_singular: "Spec"
+                summary: "{{fields.label}}: {{fields.value}}"
+                fields:
+                  - { name: "0", label: "Spec Label", widget: "string" }
+                  - { name: "1", label: "Spec Value", widget: "string" }
+              - { name: "shape", label: "Image Shape", widget: "select", required: false, options: ["m2","sata","port","usb","card","micro","ram"], default: "m2", hint: "Which product silhouette to draw" }
+              - { name: "media", label: "Card Background", widget: "select", required: false, options: ["media-dark","media-blue","media-green"], default: "media-dark" }
+              - { name: "ba", label: "Accent Color 1", widget: "string", required: false, default: "#3a4150", hint: "Hex color, e.g. #1428a0" }
+              - { name: "bb", label: "Accent Color 2", widget: "string", required: false, default: "#14171d" }
+              - { name: "ba2", label: "Extra Color 1 (RAM only)", widget: "string", required: false }
+              - { name: "bb2", label: "Extra Color 2 (RAM only)", widget: "string", required: false }
